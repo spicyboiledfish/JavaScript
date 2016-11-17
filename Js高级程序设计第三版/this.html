@@ -1,0 +1,156 @@
+<!-- 
+	参考：http://mp.weixin.qq.com/s?__biz=MjM5MTA1MjAxMQ==&mid=2651223924&idx=1&sn=d04be77d8a1e59a5cac285128161e7f1&chksm=bd49aef08a3e27e69ab27f47ea151d462620810ef05cbb558ce9418c507f01c24d9e13ed7d95&mpshare=1&scene=23&srcid=1117yY4JXFOzV5VkJAsVHyaH#rd
+
+	http://mp.weixin.qq.com/s?__biz=MjM5MTA1MjAxMQ==&mid=2651223888&idx=1&sn=a3dafa468028808fd12fc9d08629e0b7&chksm=bd49aed48a3e27c283003de0be24d633999b005c8735fca49e1eca4f793df5249b653b7f5f2d&mpshare=1&scene=23&srcid=1117OXs5qXErwazahe8xpbKN#rd
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		// 1. 默认绑定
+		function foo() {
+			console.log(this.a);
+		}
+		var a = 2;
+		foo(); // 2
+	</script>	
+
+	<script type="text/javascript">
+		// 2. 隐含绑定		
+		// 考虑调用点是否含有一个环境对象
+		function foo() {
+			console.log(this.a);
+		}
+		var obj = {
+			a: 2,
+			foo: foo
+		};
+		obj.foo(); // 2
+	</script>
+
+	<script type="text/javascript">
+		// 3. 隐含的丢失
+		function foo() {
+			console.log(this.a);	
+		} 
+
+		var obj = {
+			a: 2,
+			foo: foo
+		};
+
+		var bar = obj.foo; // 函数引用
+		var a = "global";
+		bar(); // 因为bar是全局的, 所以this绑定的是全局, global 
+
+
+		// 当传递一个回调函数时
+		function foo() {
+			console.log(this.a);
+		}
+		function doFoo(fn) {
+			// fn只不过是foo的另一个引用 
+
+			fn(); // 调用点
+		}
+		var obj = {
+			a: 2,
+			foo: foo
+		};
+		var a = "global";
+		doFoo(obj.foo); // "global"
+
+		// 如果接受所传递的回调函数不是自己的
+		function foo() {
+			console.log(this.a);
+		}
+		var obj = {
+			a；2,
+			foo: foo
+		};
+		var a = "global";
+		setTimeout(obj.foo, 100); // "global"
+	</script>
+
+	<script type="text/javascript">
+		// 4. 明确绑定
+		// call、apply
+		function foo() {
+			console.log(this.a);
+		}
+		var obj = {
+			a: 2
+		}
+		foo.call(obj); // 2
+
+
+		// 硬绑定
+		// bar 将 foo 的 this 硬绑定到 obj上了
+		// 所以无论怎么调用函数bar 它总是使obj调用foo
+		function foo() {
+			console.log(this.a);	
+		}
+		var obj = {
+			a: 2
+		}
+		var bar = function() {
+			foo.call(obj);
+		};
+		bar(); // 2
+		setTimeout(bar, 100); // 2
+		bar.call(window); // 2
+
+
+
+		// 用硬绑定将一个函数包装起来的最典型的方法，是为传入的参数和传出的返回值创建一个通道
+		function foo(something) {
+			console.log(this.a, something);
+			return this.a + something;
+		}
+		var obj = {
+			a: 2
+		};
+		var bar = function() {
+			return foo.apply(obj, arguments);
+		};
+		var b = bar(3); // 2 3
+		console.log(b); // 5
+
+
+		// 另一种表达这种模式的方法是创建一个可复用的帮助函数
+		function foo(something) {
+			console.log(this.a, something);
+			return this.a + something;
+		}
+
+		// 简单的bind帮助函数
+		function bind(fn, obj) {
+			return function() {
+				return fn.apply(obj, arguments);
+			}
+		}
+		var obj = {
+			a: 2
+		}
+		var bar = bind(foo, obj);
+		var b = bar(3); // 2 3
+		console.log(b); // 5
+
+		// 由于硬绑定是一个如此常用的模式，它已作为ES5的内建工具提供：Function.prototype.bind，like this
+		function foo(something) {
+			console.log(this.a, something);
+			return this.a + something;
+		}
+		var obj = {
+			a: 2
+		}
+		var bar = foo.bind(obj);	
+		var b = bar(3); // 2 3
+		console.log(b); // 5
+	</script>
+</body>
+</html>
