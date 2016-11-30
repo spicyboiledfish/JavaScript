@@ -6,7 +6,7 @@ function checkPalindrom(str) {
 }
 ```
 
-> 去掉一组整形数组重复的值
+> 去掉一组整形数组重复的值, 返回剩下的。
 
 ``` javascript
 // 比如输入[1, 13, 24, 11, 11, 14, 1, 2]
@@ -24,6 +24,27 @@ var unique = function(arr) {
 	return data;
 };
 ```
+
+> 请给Array本地对象增加一个原型方法，它用于删除数组条目中重复的条目(可能有多个)，返回值是一个包含被删除的重复条目的新数组。
+
+``` javascript
+Array.prototype.distinct = function() {
+	var data = [];
+	for(var i = 0;i < this.length;i++) {
+		for(var j = i + 1;j < this.length;) {
+			if(this[i] === this[j]) {
+				data.push(this.splice(j, 1)[0]);
+			} else {
+				j++;
+			}
+		}
+	}	
+	return data;
+};
+// test
+console.log([1, 2, 3, 4, 4, 4, 3, 3].distinct()); // 4, 4, 3, 3
+```
+
 
 > 统计一个字符串中出现最多的字母
 
