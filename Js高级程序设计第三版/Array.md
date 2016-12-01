@@ -52,4 +52,13 @@ function compare(value1, value2) {
 	}
 } 
 
+// 对于数值类型或者其valueOf()方法会返回数值类型的对象类型
+function compare(value1, value2) {
+	return value1 - value2;
+}
+```
+
+> 操作方法
+
+```	
 ```
