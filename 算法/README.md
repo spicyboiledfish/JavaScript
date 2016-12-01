@@ -1,3 +1,19 @@
+### 列表
+
+1. 判断一个单词是否回文
+
+2. 数组去重，返回剩下的
+
+3. 数组去重，返回去掉的
+
+4. 统计一个字符串中出现最多的字母
+
+5. 不借助任何变量交换两个变量
+
+6. 随机生成指定长度的字符串 
+
+
+
 > 判断一个单词是否回文
 
 ``` javascript
@@ -77,66 +93,6 @@ function findMax(str) {
 }
 ```
 
-> 冒泡排序
-
-``` javascript
-// 输入：[5, 6, 3, 4, 8, 0, 1, 4, 7]
-// 输出：[0, 1, 3, 4, 4, 5, 6, 7, 8]
-外层1：
-	内层1：3 6 5 8 0 1 4 7
-	内层2：0 6 5 8 3 1 4 7
-外层2：
-	内层1：0 5 6 8 3 1 4 7 
-	内层2：0 3 6 8 5 1 4 7 
-	内层3：0 1 6 8 5 3 4 7 
-// 每一次外层循环是为了找到当前最小的值
-
-function bubbleSort(arr) {
-	for(var i = 0, l = arr.length;i < l - 1;i++) {
-		for(var j = i + 1;j < l;j++) {
-			if(arr[i] > arr[j]) {
-				var temp = arr[i];
-				arr[i] = arr[j];
-				arr[j] = temp;
-			}
-		}
-	}	
-	return arr;
-}
-```
-
-> 快速排序
-
-``` javascript
-// 1. 在数组中，选一个元素作为基准
-// 2. 所有小于基准的元素，都移到基准的左边；所有大于基准的元素，都移到基准的右边。 
-// 3. 对基准左边和右边的两个子集，不断重复第一步和第二步，直到所有子集只剩下一个元素为止。
-function quickSort(arr) {
-	if(arr.length <= 1) {
-		return arr;
-	}	
-	var pivotIndex = Math.floor(arr.length / 2); 
-	var pivot = arr[pivotIndex];
-	// 找到基准元素，并将其从数组中分离出来
-	var pivot = arr.splice(pivotIndex, 1)[0];	
-	var leftArr = [];
-	var rightArr = [];
-	for(var i = 0;i < arr.length;i++) {
-		if(arr[i] > pivot) {
-			rightArr.push(arr[i]);
-		} else {
-			leftArr.push(arr[i]);
-		}	
-	}
-	return quickSort(leftArr).concat([pivot], quickSort(rightArr));
-}	
-```
-
-
-
-> 希尔排序
-
-> 插入排序
 
 > 不借助任何临时变量，交换两个整数
 
