@@ -80,9 +80,37 @@ function compare(value1, value2) {
 > 位置方法
 
 ```
+// IE9+才支持
+1. indexOf() 接受一个或两个参数，如果只有一个参数，表示在数组里查找某一项的位置, 如果存在，返回下标，若不存在，返回-1。如果是两个参数，第二个参数表示从哪个位置开始查找。
+2. lastIndexOf()同indexOf，只不过是从数组末尾开始查询。
 ```
 
+> 迭代方法
 
+```
+// IE9+才支持
+// 说明：每个方法接受两个参数，一个是在每个数组项上运行的函数和（可选的）运行该函数的作用域(改变this的值), 运行的函数接受3个参数，分别是(item, index, arrry)
+1. every() // all return true --> return true
+2. filter() // 返会该函数会返回true组成的数组 
+3. forEach() // 每个项都执行函数，不返回值
+4. map() // 返回每次函数调用的结果组成的数组
+5. some() // some return true --> return true
+```
+
+> 归并方法
+
+```
+// IE9+才支持
+// 说明：每个方法接受两个参数，一个是在每个数组项上调用的函数和（可选的）作为归并基础的初始值。传给reduce()的函数接受四个参数，分别是(前一个值，当前值，项的索引，数组对象),这个函数的任何返回值都会作为第一个参数传递并且自动传给下一项。
+1. reduce() 
+2. reduceRight()
+
+var values = [1, 2, 3, 4, 5];
+var sum = values.reduce(function(prev, cur, index, array) {
+	return prev + cur;	
+});
+console.log(sum); // 15
+```
 
 
 
