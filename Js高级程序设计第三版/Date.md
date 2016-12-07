@@ -104,7 +104,7 @@ getMinutes()
 setSeconds()
 getSeconds()
 
-// 设置和获取日期中的毫秒
+// 设置 和获取日期中的毫秒
 setMilliseconds()
 getMilliseconds()
 
