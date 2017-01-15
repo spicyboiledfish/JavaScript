@@ -19,7 +19,7 @@ var secondChild = someNode.childNdoes.item(1);
 
 4. parentNode属性
 
-5. hasChildNodes()方法 -> true/false
+5. hasChildNodes()方法 => true/false
 
 6. 所有节点的最后一个属性是ownerDocument,该属性指向表示整个文档的文档节点
 
@@ -36,7 +36,7 @@ returnNode = someNode.insertBefore(newNode, oldNode);
 3. replaceChild(要插入的节点，要替换的节点)：替换节点
 
 ``` 
-returnNode someNode.replaceChild()
+returnNode = someNode.replaceChild()
 ```
 
 4. 移除节点: removeChild(要移除的节点)
@@ -59,3 +59,9 @@ console.log(deepList.childNodes.length); // 3(IE<9)或7(其他浏览器)
 ```
 	
 6. normalize()方法处理文档树的文本节点，如果文本节点里无文本，就删除它，如果找到相邻的文本节点,就合并它们。
+
+
+## Document类型
+
+
+
