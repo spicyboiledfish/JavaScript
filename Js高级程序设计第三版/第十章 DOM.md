@@ -1,8 +1,44 @@
 # DOM
 
-## Node类型	
+## 节点层次 
 
-DOM1级定义了一个Node接口, 该接口由所有节点类型实现.
+```
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>This is a Test Page</title>
+    </head>
+    <body>
+        <p>Hello world</p>
+    </body>
+</html>
+```
+
+1. ***文档节点***是每个文档的根节点。
+
+2. 上面的例子中，文档节点只有一个子节点，即<code><html></code>元素。我们又称之为***文档元素***。文档元素是文档的最外层元素，文档的其他所有元素都包括在文档元素中。
+
+3. 每个文档只有一个文档元素，在<code>HTML</code>页面中，文档元素始终是<code>html<code>元素。
+
+4. 一个有12种节点类型，这些类型都继承自一个基类型。
+
+### Node类型	
+
+1. DOM1级定义了一个Node接口, 该接口由DOM中所有节点类型实现.
+
+2. 这个Node接口在JavaScript中是作为Node类型实现的；除了IE外，其他所有浏览器都可以访问到这个类型。
+
+3. JavaScript中所有的节点类型都继承自Node类型，因此所有节点类型都共享着相同的基本属性和方法。
+
+4. 每个节点都有<code>nodeValue</code>属性，用于表明节点的类型。
+
+    ```
+        if (someNode.nodeValue === 1) {
+            console.log(This is an element);
+        }
+    ```
+
+5. 
 
 ### 节点关系
 
