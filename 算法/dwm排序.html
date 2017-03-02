@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script>
+		var arr = ['d3', 'm3', 'w4', 'm6', 'd5', 'm8', 'w1'];
+		var d = [];
+		var w = []
+		var m = [];
+
+		/**
+		 * 一个简单的思路，没有优化
+		 *
+		 * 1. 第一步，将所有数组元素分组，分为日，周，月, 分别放入对应的数组, d, w, m
+		 *
+		 * 2. 第二步，对3个数组分别进行排序
+		 *
+		 * 3. 第三部，排序之后，将3个数组连接起来。
+		 *
+		 */
+
+		for (var i = 0;i < arr.length;i++) {
+			
+			var idx = arr[i].charAt(0);
+			if(idx == 'd') {
+				d.push(arr[i]);
+			} else if(idx == 'w') {
+				w.push(arr[i]);
+			} else if(idx == 'm') {
+				m.push(arr[i]);
+			}
+
+			// 分别对三个数组进行排序
+			bubbleSort(d);
+			bubbleSort(w);
+			bubbleSort(m);
+		}
+
+		arr = d.concat(w).concat(m);
+		console.log(arr);
+
+		// 冒泡排序算法
+		function bubbleSort(arr) {
+
+			for(var i = 0;i < arr.length - 1;i++) {
+
+				for(var j = i + 1;j < arr.length;j++) {
+
+					if(arr[i].charAt(1) > arr[j].charAt(1)) {
+
+						var temp = arr[i];
+						arr[i] = arr[j];
+						arr[j] = temp;
+					}
+				}
+			}
+		}
+
+	</script>
+</body>
+</html>
