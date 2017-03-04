@@ -277,8 +277,152 @@ Element类型是使用attributes属性的唯一一个DOM节点类型。attribute
 
 
 ```
-<div id="test" xx="mm" data-xx="true">
+<div id="test" data-xx="xx" data-yy="yy">
 var test = document.getElementById('test');
-var xx
+var xx = test.attributes.getNamedItem('data-xx').nodeValue; // 'xx'
+var xx2 = test.attributes['data-xx'].nodeValue;
+var yy = test.attributes.getNamedItem('data-yy').nodeValue; // 'yy'
 ```
+
+这个属性还可以用来遍历元素的特性。
+
+```
+function outputAttributes(element) { 
+	var pairs = new Array();
+	var attrName;
+	var attrValue;
+	var i;
+	var len;
+
+	for(i = 0, len = element.attributes.length;i < len;i++) {
+		attrName = element.attributes[i].nodeName;
+		attrValue = element.attributes[i].nodeValue;
+		pairs[i].push(attrName + "=\"" attrValue + "\"");
+	}
+}
+```
+
+
+### 创建元素
+
+document.createElement()可以用来创建新元素，它只接受一个参数，即要创建元素的表签名。这个标签名在HTML文档中不区分大小写，但是在XHTML或XML文档中，要区分。
+
+创建出来后的元素，它是游离的，但是它的ownerDocument属性却是被设置了的。
+
+```
+var xx = document.createElement('div')；
+xx.className = 'a';
+document.body.appendChild(xx);
+```
+
+### 元素的子节点
+
+主要要判断节点的类型，因为浏览器的解析可能会不一样。比如说：
+
+```
+<ul id="list">
+	<li>1</li>	
+	<li>2</li>	
+	<li>3</li>	
+</ul>
+
+var list = document.getElementById('list');
+console.log(list.childNodes.length); // 7(会有空白符号，主流浏览器) 或 3(IE)
+
+// 所以最好
+if(list.childNodes[i].nodeType == 1) {
+	// do-other
+}
+```
+
+## Text类型
+
+特性：
+
+* nodeType的值为3
+
+* nodeName的值为"#text"
+
+* nodeValue的值为节点所包含的文本 (node.nodeValue == node.data)
+
+* parentNode是一个元素
+
+* 不支持(没有)子节点
+
+* 拥有length属性
+
+方法：
+
+* appendData(text) 将text添加到节点的末尾
+
+* deleteData(offset, count)
+
+* insertData(offset, text)
+
+* splitData(offset) 从offset指定的位置将当前文本节点分成2个文本节点
+
+* substringData(offset, count) 提取从offset指定的位置开始到offset+count为止处的字符串。
+
+### 创建文本节点
+
+```
+var text = document.createTextNode('haha'); // 创建文本节点
+text.appendData(', 我是一个人'); // 在'haha'后面添加'我是一个人'
+
+var div = document.createElement('div');
+div.className = 'c';
+
+div.appendChild(text);
+document.body.appendChild(div);
+```
+
+### 规范化文本节点
+
+DOM文档中存在相邻的同胞文本节点很容易导致混乱，因此分不清哪个文本节点表示哪个字符串。因此就有了一个能够将相邻文本节点合并的方法。
+
+```
+element.normalize();
+```
+
+### 分割文本节点
+
+它的作用是和normalize()相反的。比如：
+
+```
+var textNode = document.createTextNode('Hello world');
+var newNode = textNode.splitText(5); 
+
+console.log(textNode); // "Hello"
+console.log(newNode); // " world"
+```
+
+## DocumentFragment类型
+
+在所有节点类型中，只有DocumentFragment在文档中没有对应的标记。DOM规定文档碎片(document fragment)是一种轻量级的文档，可以包含和控制节点，但是不会像完整的文档那样占用额外的资源。
+
+虽然不能将文档片段直接田间到文档中，但是可以将它作为一个"仓库"来使用。即可以在里面保存将来可能会添加到文档中的节点。要创建文档片段，可以使用document.createDocumentFragment()。
+
+举例来说，如果我们想为ul添加3个列表项，如果逐个添加列表项，将会导致浏览器反复渲染(呈现)新信息。所以可以这样:
+
+```
+<ul id="list"></ul>
+
+var list = document.getElementById('list');
+var fragment = document.createDocumentFragment;
+var li;
+var i;
+
+for(i = 0;i < 3;i++) {
+	li = document.createElement('li');
+	fragment.appendChild(li);
+}
+
+list.appendChild(fragment);
+```
+
+
+
+
+
+
 
