@@ -43,6 +43,8 @@ console.log(deepList.childNodes.length); // 3(IE<9)或7(其他浏览器)
 	
 * normalize()方法处理文档树的文本节点，当某个节点调用该方法时，就会在该节点的后代节点中查找下面的情况。 如果后代的文本节点里无文本，就删除它;如果找到相邻的文本节点,就合并它们。
 
+
+
 ## Document类型
 
 1. JavaScript通过Document类型表示文档。

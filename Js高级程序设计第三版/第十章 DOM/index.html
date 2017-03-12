@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<div id="haha" data-xx="mmee" class="xxx" style="color: red;"></div>
+	<script>
+		var element = document.getElementById('haha');
+		var xx = element.attributes.getNamedItem("data-xx").nodeValue;
+
+		var style = element.attributes.getNamedItem('style').nodeValue;
+		console.log(xx);
+		console.log(style);
+	</script>
+</body>
+</html>
