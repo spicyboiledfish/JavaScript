@@ -10,6 +10,10 @@
 
 [知乎收藏](https://www.zhihu.com/collection/60893368)
 
+[执行环境](http://davidshariff.com/blog/what-is-the-execution-context-in-javascript/)
+
+个十百千万
+
 * 什么是堆内存，什么是栈内存?
 
 * new的过程
