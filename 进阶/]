@@ -336,32 +336,18 @@ console.log(obj.num);
 * 第一步，将预解析(创建执行环境)的阶段，给表示出来。
 
 ```
-var num = 1;
-var obj = {
-	num: 2,
-	fn: (function() {
-	
-		var num;
+fn: (function() {
+	var num;
+	this.num += 10;
+	num += 10;
+	num = 3;
+
+	return function() {
 		this.num += 10;
-		num += 10;
-		num = 3;
-		return function() {
-			this.num += 10;
-			num++;
-			console.log(num);
-		};
-	})();
-}
-
-// 代码从上往下执行
-
-// this.num += 10， window.num的值是11
-
-// 进入fn自执行环境中
-
-// num = 3, 这个3被闭包引用，因此永远也不会被清除掉，除非闭包释放引用。
-
-// 然后返回fn返回一个函数, 里面的num的值是3。
+		num++;
+		console.log(num);
+	};
+})();
 ```
 
 * 执行代码，var fn = obj.fn
@@ -369,9 +355,15 @@ var obj = {
 * 调用函数fn(), 根据第二点，this对象指向的是window。
 
 ```
-// this.num += 10 等价于 window.num = 11 + 10 = 21
+// this.num += 10 等价于 window.num = 1 + 10 = 11
 
-// num++, num是闭包引用外部作用域里的num，之前的值是3, 加了过后就是4了。由于这是闭包，所以num的值是被一直引用在内存里的，并不会消亡。
+// num += 10 等价于 undefined + 10 , 值为NaN
+
+// num = 3 等价于num = 3， 此时的num是函数作用域里的num
+
+// 闭包里， this.num += 10 等价于 wndow.num = window.num + 10 = 21
+
+// num++ 等价于 num + 1 = 4,值为4，此时的num是函数作用域里的num, 由于这是闭包，所以num的值是被一直引用在内存里的，并不会消亡。
 
 // console.log(num); 打印出4，函数作用域里的num
 ```
@@ -379,30 +371,7 @@ var obj = {
 * obj.fn(), 此时this的值是obj的变量对象。
 
 ```
-// this.num += 10 等价于 obj.num += 10, 值为12
-
-// num++, 此时的num是闭包里的num，之前的值一直在内存里，值仍然是4，所以这里num++后值就为5了。
-
-// console.log(num); 值为5
+// this.num += 10 等价于
 ```
 
-* console.log(num)，此时的num是window.num, 值已经是21了。
 
-* console.log(obj.num)， 此时的obj.num值是12.
-
-因此最后的打印结果是： 4  5 21 12
-
-这里还有一道题：
-
-```
-var getName;
-
-function getName() {
-	console.log(1);
-}
-
-getName = function() {
-	console.log(2);
-}
-getName(); // 2
-```
