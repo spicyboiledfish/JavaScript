@@ -186,6 +186,47 @@ for(var i = 0;i < 5;i++) {
 
 当然，闭包还有其他应用场景，比如namespace等等，以后再做介绍。
 
+## 面试题小计
+
+第一题：
+
+```
+function foo() {
+	var i = 0;
+	return function() {
+		console.log(i++);
+	};
+}
+var f1 = foo();
+var f2 = foo();
+f1();
+f1();
+f2();
+
+// 结果是：010
+// 原因是每个函数被调用的时候，创建自己的执行环境，所以f1的i和f2的i是不相互影响的。
+```
+
+第二题：
+
+```
+function foo() {
+	var i = 0;
+	return function() {
+		console.log(i++);
+	};
+}
+var f1 = foo();
+var f2 = f1;
+f1();
+f1();
+f2();
+
+// 结果是012
+```
+
+
+
 **参考:**
 
 ![How do JavaScript closures work?](http://stackoverflow.com/questions/111102/how-do-javascript-closures-work)
