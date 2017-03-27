@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script>
+
+		/*
+		 * 元字符
+		 */
+		var str1 = "He is a boy, is he?";
+		var str2 = "@123\n@456\n@789";
+		var str3 = "abcdefgABCDEFG123456";
+		var str4 = "      xxx    ";
+		var str5 = "123abcDEF_$%^&*(";
+		var str6 = "@123@456@";
+		var str7 = "This is a boy";
+		var str8 = "ab123456hhh";
+
+		// 字符串里的\本身是特殊字符，如果要用，需要转义
+		var regexp = new RegExp('\\bis\\b', 'g');
+
+		console.log(str1.replace(/\bis\b/, 'IS'));
+		console.log(str1.replace(/\bis\b/g, 'IS'));
+		console.log(str1.replace(/\bis\b/i, 'IS'));
+		console.log(str1.replace(regexp, "IS"));
+		console.log(str2.replace(/^@./gm, 'X'));
+
+
+		/*
+		 * 构建类[abc], one of abc
+		 */
+		console.log(str3.replace(/[abc]/g, 'Q'));
+
+		/*
+		 * 反向类[^abc], none of abc
+		 */
+		console.log(str3.replace(/[^abc]/g, 'Q'));
+
+		/*
+		 * 范围类[a-z] [A-Z] [0-9]
+		 */
+		console.log(str3.replace(/[a-z]/g, 'Q'));
+		console.log(str3.replace(/[a-zA-Z]/g, 'Q'));
+		console.log(str3.replace(/[a-zA-Z0-9]/g, 'Q'));
+
+		/*
+		 * 预定义类
+		 * .等价与 [^\r\n]
+		 * \d等价于[0-9]
+		 * \D等价于[^0-9]
+		 * \s等价于[^\t\n\x0B\f\r] ，即空白符
+		 * \S等价于[\t\n\x0B\f\r] ，即非空白符
+		 * \w等价于[a-zA-Z_0-9], 即字母，数字，下划线
+		 * \W等价于[^a-zA-Z_0-9], 即非字母，非数字，非下划线
+		 */
+		console.log(str3.replace(/./g, 'M'));
+		console.log(str3.replace(/\d/g, 'M'));
+		console.log(str3.replace(/\D/g, 'M'));
+		console.log(str4.replace(/\s/g, 'M'));
+		console.log(str4.replace(/\S/g, 'M'));
+		console.log(str5.replace(/\w/g, 'M'));
+		console.log(str5.replace(/\W/g, 'M'));
+
+		/*
+		 * 边界字符
+		 * ^以什么开始
+		 * $以什么结束
+		 * \b单词边界
+		 * \B非单词边界
+		 */
+		console.log(str6.replace(/^@/, 'L')); // 以@开头的转为'L'
+		console.log(str6.replace(/^@./, 'Q')); // 以@开头且紧跟后的任意字符 ，将它们转为'L'
+		console.log(str6.replace(/^@[0-9]/, 'L')); // 以@开头且紧跟后的数字，将它们转为'L'
+		console.log(str6.replace(/@$/, 'L'));  // 将最后的一个@转为L
+		console.log(str7.replace(/\bis\b/, 'IS'));  
+		console.log(str7.replace(/\Bis\b/, 'IS'));  
+
+		// ab+数字+任意字符 
+		console.log(str8.replace(/ab[0-9][^\r\n]/g, 'L'));
+		console.log(str8.replace(/ab\d./g, 'L'));
+
+
+
+
+
+	</script>
+</body>
+</html>

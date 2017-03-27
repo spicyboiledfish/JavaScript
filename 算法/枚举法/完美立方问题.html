@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script>
+		var n = 24;
+		for(var a = 2;a <= n;a++) {
+
+			for(var b = 2;b < a;b++) {
+
+				for(var c = b;c < a;c++) {
+
+					for(var d = c;d < a;d++) {
+
+						if(a*a*a === b*b*b + c*c*c + d*d*d) {
+
+							console.log("Cube: " + a + "(" + b + "," + c + "," + d + ")");
+						}
+					}
+				}
+			}	
+		}
+	</script>
+</body>
+</html>

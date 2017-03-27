@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script>
+		var p = 10; // 体力高峰出现的日子
+		var e = 30; // 情商高峰出现的日子
+		var i = 40; // 智商高峰出现的日子
+		var d = 10; // 给定的日子
+
+		var k = d + 1;
+		while((k - p) % 23 !== 0) {
+			k++;
+		}
+
+		while((k - e) % 28 !== 0) {
+			k+=23;
+		}
+
+		while((k - i) % 33 !== 0) {
+			k += 28*23;
+		}
+
+		console.log(k - d);
+
+
+	</script>
+</body>
+</html>
