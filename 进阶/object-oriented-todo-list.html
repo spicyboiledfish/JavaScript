@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>javascript object-oriented todolist</title>
+	<style>
+		.hide {
+			display: none;
+		}
+
+		.show {
+			display: block;
+		}
+
+	</style>
+</head>
+<body>
+	<div>
+		<input type="text" data-input="work">
+		<ul data-list="work">
+		</ul>
+	</div>
+<script>
+var config = {
+	classShow: 'show',
+	classHide: 'hide'
+};
+
+var TodoList = function(name) {
+	this.list = document.querySelector('[data-list="' + name + '"]');
+	this.childs = this.list.querySelectorAll('li');
+	this.input = document.querySelector('[data-input="' + name + '"]');
+
+	// 绑定事件
+	this.init = function() {
+		
+		// input按下enter键
+		this.input.addEventListener('keyup', function(event) {
+			this.handleKeyup(event);
+		}.bind(this));
+
+		// 事件委托，点击list
+		this.list.addEventListener('click', function(event) {
+			this.handleListClick(event);
+		}.bind(this));
+	
+		// input的值改变时
+		this.input.addEventListener('input', function(event) {
+			this.handleInputChange(event);
+		}.bind(this));
+	};
+};
+
+/**
+ *
+ * 事件与应用单元分离
+ * handleKeyup
+ * 
+ * {param} object event
+ *
+ */
+TodoList.prototype.handleKeyup = function(event) {
+	event.preventDefault();
+	event.stopPropagation();
+	this.addItem(event.keyCode, event.target);
+}
+
+
+/**
+ *
+ * 增加一个todo-item
+ * 注意，这里要绑定this
+ *
+ * {param} number event.keyCode
+ * {param} object event.target
+ *
+ */
+TodoList.prototype.addItem = function(keyCode, target) {
+
+	if(event.keyCode == 13 && event.target.value.trim().length > 0) {
+		this.append();
+		this.clearInput();			
+		this.childs = this.list.querySelectorAll('li');
+	}
+}
+
+
+/**
+ * 事件和应用单元分离
+ * 点击list，事件冒泡阶段处理, 委托事件
+ * 
+ * {param} object event
+ */
+TodoList.prototype.handleListClick = function(event) {
+	event.preventDefault();
+	event.stopPropagation();
+	this.removeItem(event.target);
+}
+
+/**
+ * 删除一个todo-item
+ *
+ * {param} object event.target
+ */
+TodoList.prototype.removeItem = function(target) {
+		
+	// 初始化执行的时候，不存在target
+	if(target) {
+		if(target.nodeName == 'BUTTON') {
+			target.parentNode.parentNode.removeChild(target.parentNode);
+			this.childs = this.list.querySelectorAll('li');
+		}
+	}
+};
+
+/**
+ * 事件和应用单元分离
+ * input内容改变，则模糊查找, 调用findItem()函数
+ * 
+ * {param} object event
+ */
+TodoList.prototype.handleInputChange = function(event) {
+	var value = event.target.value;
+	event.preventDefault();
+	event.stopPropagation();
+	this.findItem(value);
+}
+
+
+/**
+ *
+ * 查找输入字符串是否存在
+ * 如果不存在，就显示所有的list
+ * 如果存在，就显示存在的
+ *
+ */
+TodoList.prototype.findItem = function(value) {
+
+	var find = false;
+
+	// 隐藏所有
+	for(var i = 0;i < this.childs.length;i++) {
+		this.childs[i].className = config.classHide;
+	}
+
+	// 如果存在就显示
+	for(var i = 0;i < this.childs.length;i++) {
+		var nowEl = this.childs[i];
+
+		if(nowEl.firstChild.innerText.indexOf(value) != -1) {
+			nowEl.className = config.classShow;
+			find  = true;
+		}
+	}
+
+	// 如果都没有就全部显示
+	if(!find) {
+		for(var i = 0;i < this.childs.length;i++) {
+			this.childs[i].className = config.classShow;
+		}
+	}
+};
+
+
+/**
+ *
+ * 清空输入框
+ *
+ */
+TodoList.prototype.clearInput = function() {
+	this.input.value = '';
+}
+
+
+/**
+ *
+ * 为totolist append一个li标签
+ *
+ */
+TodoList.prototype.append = function() {
+	var oLi = document.createElement('li');
+	var oBtn = document.createElement('button');
+	var oSpan = document.createElement('span');
+	oSpan.innerHTML = this.input.value.trim();
+	oBtn.innerHTML = 'delete';
+	oLi.appendChild(oSpan);
+	oLi.appendChild(oBtn);
+	this.list.appendChild(oLi);
+};
+
+var todo = new TodoList('work');
+todo.init();
+
+</script>
+</body>
+</html>

@@ -229,10 +229,10 @@ f2();
 
 **参考:**
 
-![How do JavaScript closures work?](http://stackoverflow.com/questions/111102/how-do-javascript-closures-work)
+[How do JavaScript closures work?](http://stackoverflow.com/questions/111102/how-do-javascript-closures-work)
 
-![You don't know JS: closure](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/ch5.md)
+[You don't know JS: closure](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20&%20closures/ch5.md)
 
-![闭包](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures)
+[闭包](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures)
 
-![循环中的闭包](https://segmentfault.com/a/1190000000471569)
+[循环中的闭包](https://segmentfault.com/a/1190000000471569)
