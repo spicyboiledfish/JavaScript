@@ -1,3 +1,18 @@
+<!-- vim-markdown-toc GFM -->
+* [todo-list](#todo-list)
+	* [前言](#前言)
+	* [遵守](#遵守)
+	* [开始](#开始)
+		* [布局](#布局)
+		* [设计对象](#设计对象)
+		* [对象的属性](#对象的属性)
+		* [事件绑定](#事件绑定)
+		* [业务逻辑单元的操作](#业务逻辑单元的操作)
+		* [实例化对象](#实例化对象)
+	* [参考](#参考)
+
+<!-- vim-markdown-toc -->
+
 # todo-list
 
 ## 前言
@@ -247,7 +262,7 @@ var todo = new TodoList('work');
 todo.init();
 ```
 
-如果你想要查看这个简单的todo-list所有的代码，请点击[这里]()
+如果你想要查看这个简单的todo-list所有的代码，请点击[这里](https://github.com/yzfdjzwl/JavaScript/blob/master/%E8%BF%9B%E9%98%B6/object-oriented-todo-list.html)
 
 ## 参考
 
