@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		ul, li {
+			list-style: none;
+		}
+
+		.warp {
+			width: 500px;
+			margin: 30px auto;
+			border: 1px solid red;
+		}
+
+		.warp ul {
+			width: 100%;
+		}
+
+		.warp ul::after {
+			display: block;
+			clear: both;
+			content: '';
+		}
+
+		.warp ul li {
+			float: left;
+		}
+
+		.warp .nav li a {
+			display: inline-block;
+			width: 100px;
+			height: 50px;
+			line-height: 50px;
+			text-align: center;
+			text-decoration: none;
+			color: #000;
+			background: #eee;
+		}
+
+		.warp .nav li .hover {
+			background: #999;
+		}
+
+		.warp .news-list {
+			padding-top: 10px;
+			height: 68px;
+		}
+
+		.warp .news-list li {
+			float: left;
+			margin-left: 50px;
+		}
+
+		.warp .news-list li a {
+			display: inline-block;
+			width: 200px;	
+			height: 30px;
+			line-height: 30px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			text-decoration: none;
+			color: #000;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div class="warp" data-warp="demo">
+		<ul class="nav" data-nav="demo">
+			<li><a href="#" data-index="0">娱乐</a></li>
+			<li><a href="#" data-index="1">新闻</a></li>
+			<li><a href="#" data-index="2">财经</a></li>
+			<li><a href="#" data-index="3">体育</a></li>
+			<li><a href="#" data-index="4">视频</a></li>
+		</ul>
+		<ul class="news-list" data-list="demo">
+		</ul>
+	</div>
+</body>
+<script>
+
+	var config = {
+		listNum: 4,
+		classHover: 'hover'
+	};
+
+	/**
+	 * 封装Tab类
+	 *
+	 * {param} string 名字
+	 * {param} array 数据
+	 *
+	 */
+	var Tab = function(name, dataList) {
+		this.nav = document.querySelector('[data-nav="' + name + '"]');
+		this.list = document.querySelector('[data-list="' + name + '"]');
+		this.dataList = dataList;
+		this.timer = null;
+		this.curIndex = 0;
+
+		/**
+		 * 初始化，绑定事件
+		 *
+		 */
+		this.init = function() {
+
+			// 初始化，添加第一个项的数据，第一个项的样式
+			this.handleInit();
+
+			// 设置自动轮播
+			this.setAutoRun();
+
+			this.nav.addEventListener('mouseover', function(event) {
+				this.handleMouseOver(event);
+			}.bind(this));
+
+			this.nav.addEventListener('mouseout', function(event) {
+				this.handleMouseOut(event);
+			}.bind(this));
+
+			this.list.addEventListener('mouseover', function(event) {
+				this.handleClearInterval();
+			}.bind(this));
+
+			this.list.addEventListener('mouseout', function(event) {
+				this.handleMouseOut(event);
+			}.bind(this));
+		};
+	};
+
+	
+	/**
+	 * 初始化，设置hover样式，设置最开始的列表
+	 * 
+	 * 
+	 */
+	Tab.prototype.handleInit = function() {
+		this.changeClass(this.curIndex);
+		this.changeList(this.curIndex);
+	};
+
+	/**
+	 * 设置自动轮播
+	 *
+	 */	
+	Tab.prototype.setAutoRun = function() {
+
+		this.timer = setInterval(function() {
+			this.curIndex++;
+			if(this.curIndex == this.nav.childElementCount) {
+				this.curIndex = 0;
+			}
+			this.changeList(this.curIndex);
+			this.changeClass(this.curIndex);
+		}.bind(this), 2000);
+	};
+
+	/**
+	 * 清除定时器
+	 *
+	 */
+	Tab.prototype.handleClearInterval = function() {
+		clearInterval(this.timer);
+	};
+
+
+	/**
+	 * 处理mouseover事件
+	 *
+	 * {param} object event
+	 */
+	Tab.prototype.handleMouseOver = function(event) {
+		var target = event.target || event.srcElement;
+
+		if(target.nodeName.toLowerCase() === 'a') {
+			this.curIndex = target.getAttribute('data-index');
+			this.changeList(this.curIndex);
+			this.changeClass(this.curIndex);
+			this.handleClearInterval();
+		}
+	};
+
+	/**
+	 * 处理鼠标移出时
+	 * 继续自动播放
+	 * 
+	 *
+	 */
+	Tab.prototype.handleMouseOut = function(event) {
+		this.setAutoRun();		
+	}
+
+	/**
+	 * 改变nav的样式，通过改变类名
+	 * 先清空所有的样式
+	 * 再设置当前的样式
+	 *
+	 * {param} integer a标签自定义属性(data-index)的值 
+	 *
+	 */
+	Tab.prototype.changeClass = function(dataIndex) {
+		var child = this.nav.firstElementChild; // li
+
+		for(var i = 0;i < this.nav.childElementCount;i++) {
+			child.firstElementChild.className = ''; // a
+			child = child.nextElementSibling;
+		}
+
+		child = this.nav.firstElementChild;
+		for(var i = 0;i < this.nav.childElementCount;i++) {
+
+			if(i == dataIndex) {
+				child.firstElementChild.className = config.classHover;
+				break;
+			}
+			child.firstElementChild.className = ''; // a
+			child = child.nextElementSibling;
+		}
+	};
+
+	/**
+	 * 改变当前nav的项所对应的数据
+	 * 判断是否已经有节点了，没有就创建
+	 * 有的话，直接修改a标签的innerText属性的值
+	 *
+	 * {param} integer a标签自定义属性(data-index)的值 
+	 */
+	Tab.prototype.changeList = function(dataIndex) {
+
+		if(this.list.childElementCount == 0) {
+			var fragment = document.createDocumentFragment();
+			var oLi;
+			var oA;
+
+			for(var i = 0;i < config.listNum;i++) {
+				oLi = document.createElement('li');
+				oA = document.createElement('a');
+				oA.innerText = this.dataList[dataIndex][i];
+				oLi.appendChild(oA);
+				fragment.appendChild(oLi);
+			}
+			this.list.append(fragment);
+		} else {
+
+			var child = this.list.firstElementChild;
+			for(var i = 0;i < config.listNum;i++) {
+				child.firstElementChild.innerText = this.dataList[dataIndex][i];
+				child = child.nextElementSibling;
+			}
+		}	 
+	};
+
+	var dataArr = [
+		['这是娱乐测试一', '这是娱乐测试二', '这是娱乐测试三', '这是娱乐测试四'],
+		['这是新闻测试一', '这是新闻测试二', '这是新闻测试三', '这是新闻测试四'],
+		['这是财经测试一', '这是财经测试二', '这是财经测试三', '这是财经测试四'],
+		['这是体育测试一', '这是体育测试二', '这是体育测试三', '这是体育测试四'],
+		['这是视频测试一', '这是视频测试二', '这是视频测试三', '这是视频测试四'],
+	];
+	var tab = new Tab('demo', dataArr);
+	tab.init();
+</script>
+</html>
